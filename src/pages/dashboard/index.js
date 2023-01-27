@@ -1,6 +1,7 @@
 import endPoints from '@services/api';
 import useFetch from '@hooks/useFetch';
 import { Chart } from '@common/Chart';
+import Head from 'next/head';
 
 const PRODUCT_LIMIT = 60;
 const PRODUCT_OFFSET = 60;
@@ -26,6 +27,9 @@ export default function Dashboard() {
 
   return (
     <>
+      <Head>
+        <title>Dashboard</title>
+      </Head>
       <Chart className="mb-8 mt-2" chartData={data} />
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

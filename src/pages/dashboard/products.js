@@ -8,6 +8,7 @@ import endPoints from '@services/api';
 import useAlert from '@hooks/useAlert';
 import Alert from '@common/Alert';
 import { deleteProduct } from '@services/api/products';
+import Head from 'next/head';
 
 export default function Products() {
   const [open, setOpen] = useState(false);
@@ -39,6 +40,9 @@ export default function Products() {
 
   return (
     <>
+      <Head>
+        <title>Products</title>
+      </Head>
       <Alert alert={alert} handleClose={toggleAlert} />
       <div className="lg:flex lg:items-center lg:justify-between mb-8">
         <div className="flex-1 min-w-0">
