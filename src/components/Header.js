@@ -3,6 +3,7 @@ import { useAuth } from '@hooks/useAuth';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -14,16 +15,16 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const router = useRouter();
   const auth = useAuth();
 
   const userData = {
     name: auth?.user?.name,
     email: auth?.user?.email,
-    imageUrl: auth?.user?.avatar || `https://ui-avatars.com/api/?name=${auth?.user?.name}`,
+    imageUrl: auth?.user?.avatar || `https://api-private.atlassian.com/users/54d1274802ff9624a57ac9d86134c28e/avatar`,
   };
 
   let navigation = [];
-  console.log('!auth.user?.name', !auth?.user?.name);
   if (!auth?.user?.name) {
     navigation = [
       { name: 'Home', href: '/', current: true },
@@ -37,6 +38,13 @@ export default function Header() {
       { name: 'Productos', href: '/dashboard/products/', current: false },
     ];
   }
+
+  // const myImage = ;
+
+  const handleClick = () => {
+    auth.logout();
+    router.push('/login');
+  };
 
   return (
     <>
@@ -83,7 +91,7 @@ export default function Header() {
                       <div>
                         <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                           <span className="sr-only">Open user menu</span>
-                          <img className="h-8 w-8 rounded-full" src={userData.imageUrl} alt="" />
+                          <img className="h-8 w-8 rounded-full " src={userData.imageUrl} alt="" />
                         </Menu.Button>
                       </div>
                       <Transition
@@ -95,9 +103,9 @@ export default function Header() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          <button onClick={() => auth.logout()} className="block px-4 py-2 text-sm text-gray-700">
-                            Logout
+                        <Menu.Items className="z-10 drop-shadow-xl cursor-pointer origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none ">
+                          <button onClick={handleClick} className="block px-4 py-2 text-sm text-gray-700 w-full h-max text-left">
+                            {!auth?.user?.name ? 'log in' : 'log out'}
                           </button>
                         </Menu.Items>
                       </Transition>
@@ -140,7 +148,7 @@ export default function Header() {
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium leading-none text-white">{userData.name}</div>
-                    <div className="text-sm font-medium leading-none text-gray-400">{userData.email}</div>
+                    <div className="text-sm font-medium lefading-none text-gray-400">{userData.email}</div>
                   </div>
                   <button
                     type="button"
@@ -156,9 +164,6 @@ export default function Header() {
                       <a href={item.href} className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">
                         {item.name}
                       </a>
-                      {/* <Disclosure.Button key={item.name} as="a" href={item.href} className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">
-                        {item.name}
-                      </Disclosure.Button> */}
                     </Link>
                   ))}
                 </div>
