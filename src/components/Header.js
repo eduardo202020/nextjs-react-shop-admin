@@ -4,12 +4,6 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 
-const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'Dashboard', href: '/dashboard', current: false },
-  { name: 'Productos', href: '/dashboard/products/', current: false },
-  { name: 'Log in', href: '/login', current: false },
-];
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
@@ -25,8 +19,24 @@ export default function Header() {
   const userData = {
     name: auth?.user?.name,
     email: auth?.user?.email,
-    imageUrl: `https://ui-avatars.com/api/?name=${auth?.user?.name}`,
+    imageUrl: auth?.user?.avatar || `https://ui-avatars.com/api/?name=${auth?.user?.name}`,
   };
+
+  let navigation = [];
+  console.log('!auth.user?.name', !auth?.user?.name);
+  if (!auth?.user?.name) {
+    navigation = [
+      { name: 'Home', href: '/', current: true },
+
+      { name: 'Log in', href: '/login', current: false },
+    ];
+  } else {
+    navigation = [
+      { name: 'Home', href: '/', current: true },
+      { name: 'Dashboard', href: '/dashboard', current: false },
+      { name: 'Productos', href: '/dashboard/products/', current: false },
+    ];
+  }
 
   return (
     <>
@@ -43,26 +53,18 @@ export default function Header() {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
-                      {navigation.map((item) => (
-                        <Link
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium')}
-                          aria-current={item.current ? 'page' : undefined}
-                        >
-                          {/* <>
-                            <a
-                              // key={item.name}
-                              href={item.href}
-                              className={classNames(item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium')}
-                              aria-current={item.current ? 'page' : undefined}
-                            >
-                             
-                            </a>
-                          </> */}
-                          {item.name}
-                        </Link>
-                      ))}
+                      {navigation.map((item) => {
+                        return (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            className={classNames(item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium')}
+                            aria-current={item.current ? 'page' : undefined}
+                          >
+                            {item.name}
+                          </Link>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

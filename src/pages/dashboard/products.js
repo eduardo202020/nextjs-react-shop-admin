@@ -9,11 +9,21 @@ import useAlert from '@hooks/useAlert';
 import Alert from '@common/Alert';
 import { deleteProduct } from '@services/api/products';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useAuth } from '@hooks/useAuth';
 
 export default function Products() {
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const { alert, setAlert, toggleAlert } = useAlert();
+  const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user?.name) {
+      router.push('/');
+    }
+  }, [user]);
 
   useEffect(() => {
     async function getProducts() {
