@@ -4,6 +4,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -17,6 +18,14 @@ function classNames(...classes) {
 export default function Header() {
   const router = useRouter();
   const auth = useAuth();
+  const { reSignIn } = useAuth();
+
+  useEffect(() => {
+    if (!auth?.user?.name) {
+      console.log('reSignIn');
+      reSignIn();
+    }
+  }, []);
 
   const userData = {
     name: auth?.user?.name,

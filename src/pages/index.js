@@ -1,14 +1,5 @@
-import { Fragment } from 'react';
-
 import Link from 'next/link';
 import Head from 'next/head';
-
-// const navigation = [
-//   { name: 'Product', href: '#' },
-//   { name: 'Features', href: '#' },
-//   { name: 'Marketplace', href: '#' },
-//   { name: 'Dashboard', href: '/dashboard' },
-// ];
 
 export default function Home() {
   return (

@@ -34,6 +34,15 @@ function useProvideAuth() {
     }
   };
 
+  const reSignIn = async () => {
+    const token = Cookie.get('token');
+    if (token) {
+      axios.defaults.headers.Authorization = `Bearer ${token}`;
+      const { data: user } = await axios.get(endPoints.auth.profile);
+      setUser(user);
+    }
+  };
+
   const logout = () => {
     Cookie.remove('token');
     setUser(null);
@@ -44,5 +53,6 @@ function useProvideAuth() {
     user,
     signIn,
     logout,
+    reSignIn,
   };
 }
