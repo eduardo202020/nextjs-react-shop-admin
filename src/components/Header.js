@@ -5,6 +5,7 @@ import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Image from 'next/image';
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -25,7 +26,7 @@ export default function Header() {
       console.log('reSignIn');
       reSignIn();
     }
-  }, []);
+  }, [auth?.user, reSignIn]);
 
   const userData = {
     name: auth?.user?.name,
@@ -65,7 +66,7 @@ export default function Header() {
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
                     <Link href="/" passHref>
-                      <img className="h-8 w-8 cursor-pointer" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow" />
+                      <Image width="40px" height="40px" className="h-8 w-8 cursor-pointer" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow" />
                     </Link>
                   </div>
                   <div className="hidden md:block">
@@ -100,7 +101,7 @@ export default function Header() {
                       <div>
                         <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                           <span className="sr-only">Open user menu</span>
-                          <img className="h-8 w-8 rounded-full " src={userData.imageUrl} alt="" />
+                          <Image width="40px" height="40px" className="h-8 w-8 rounded-full " src={userData.imageUrl} alt="" />
                         </Menu.Button>
                       </div>
                       <Transition
@@ -153,7 +154,7 @@ export default function Header() {
               <div className="pt-4 pb-3 border-t border-gray-700">
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
-                    <img className="h-10 w-10 rounded-full" src={userData.imageUrl} alt="" />
+                    <Image width="40px" height="40px" className="h-10 w-10 rounded-full" src={userData.imageUrl} alt="" />
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium leading-none text-white">{userData.name}</div>
