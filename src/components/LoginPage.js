@@ -1,23 +1,20 @@
 import { useRef } from 'react';
 import { LockClosedIcon } from '@heroicons/react/solid';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { useAuth } from '@hooks/useAuth';
+import ModalLoginErrror from '@common/ModalLoginError';
 import Image from 'next/image';
 
 export default function LoginPage() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  const auth = useAuth();
-  const router = useRouter();
+  const { signIn, error, setError } = useAuth();
 
   const submitHanlder = (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-
-    auth.signIn(email, password).then(() => {
-      router.push('/dashboard');
-    });
+    signIn(email, password).then(() => {});
   };
 
   return (
@@ -90,6 +87,8 @@ export default function LoginPage() {
               </button>
             </div>
           </form>
+          {error && <ModalLoginErrror setError={setError} error={error} />}
+          {/* {error && <button onClick={() => setError(false)}>Close</button>} */}
         </div>
       </div>
     </>

@@ -2,6 +2,7 @@ import React, { useState, useContext, createContext } from 'react';
 import Cookie from 'js-cookie';
 import axios from 'axios';
 import endPoints from '@services/api/';
+import router from 'next/router';
 
 const AuthContext = createContext();
 
@@ -16,6 +17,8 @@ export const useAuth = () => {
 
 function useProvideAuth() {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(false);
+  const [pushBolean, setPushBolean] = useState(false);
 
   const signIn = async (email, password) => {
     const options = {
@@ -24,13 +27,23 @@ function useProvideAuth() {
         'Content-Type': 'application/json',
       },
     };
-    const { data: access_token } = await axios.post(endPoints.auth.login, { email, password }, options);
-    if (access_token) {
-      const token = access_token.access_token;
-      Cookie.set('token', token, { expires: 5 });
-      axios.defaults.headers.Authorization = `Bearer ${token}`;
-      const { data: user } = await axios.get(endPoints.auth.profile);
-      setUser(user);
+    try {
+      const { data: access_token } = await axios.post(endPoints.auth.login, { email, password }, options);
+      if (access_token) {
+        const token = access_token.access_token;
+        Cookie.set('token', token, { expires: 5 });
+        axios.defaults.headers.Authorization = `Bearer ${token}`;
+        const { data: user } = await axios.get(endPoints.auth.profile);
+        if (user?.name) {
+          router.push('/dashboard');
+        }
+
+        setUser(user);
+        setPushBolean(true);
+      }
+    } catch (error) {
+      setError(true);
+      setPushBolean(false);
     }
   };
 
@@ -54,5 +67,9 @@ function useProvideAuth() {
     signIn,
     logout,
     reSignIn,
+    error,
+    setError,
+    setPushBolean,
+    pushBolean,
   };
 }

@@ -23,7 +23,6 @@ export default function Header() {
 
   useEffect(() => {
     if (!auth?.user?.name) {
-      console.log('reSignIn');
       reSignIn();
     }
   }, [auth?.user, reSignIn]);
