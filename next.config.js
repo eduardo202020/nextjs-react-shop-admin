@@ -12,6 +12,9 @@ module.exports = {
       'aperrados.com',
       'tailwindui.com',
       'api-private.atlassian.com',
+      'us-tuna-sounds-images.voicemod.net',
+      'firebasestorage.googleapis.com',
+      'naturaleza.jpeg',
     ],
   },
 };
